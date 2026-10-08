@@ -1,0 +1,68 @@
+#include <iostream>
+#include <string>
+#include <iomanip>
+struct NhanVien {
+    string manv;
+    string hoten;
+    int tuoi;
+};
+
+void nhapNhanVien(NhanVien &nv) {
+    cout << "  Ma nhan vien: ";
+    getline(cin, nv.manv);
+    cout << "  Ho ten      : ";
+    getline(cin, nv.hoten);
+    cout << "  Tuoi        : ";
+    cin >> nv.tuoi;
+    cin.ignore(); 
+}
+
+void nhapDanhSach(NhanVien ds[], int n) {
+    for (int i = 0; i < n; i++) {
+        cout << "Nhap nhan vien thu " << i + 1 << ":\n";
+        nhapNhanVien(ds[i]);
+    }
+}
+
+void inNhanVien(const NhanVien &nv) {
+    cout << left << setw(12) << nv.manv
+         << setw(25) << nv.hoten
+         << setw(5)  << nv.tuoi << endl;
+}
+
+void inNhanVienNghiHuu(NhanVien ds[], int n) {
+    bool coNguoiNghiHuu = false;
+
+    cout << "\n=== DANH SACH NHAN VIEN NGHI HUU (tuoi >= 55) ===\n";
+    cout << left << setw(12) << "Ma NV"
+         << setw(25) << "Ho ten"
+         << setw(5)  << "Tuoi" << endl;
+    cout << string(42, '-') << endl;
+
+    for (int i = 0; i < n; i++) {
+        if (ds[i].tuoi >= 55) {
+            inNhanVien(ds[i]);
+            coNguoiNghiHuu = true;
+        }
+    }
+
+    if (!coNguoiNghiHuu)
+        cout << "Khong co nhan vien nao den tuoi nghi huu.\n";
+}
+
+int main() {
+    int n;
+    do {
+        cout << "Nhap so luong nhan vien n: ";
+        cin >> n;
+    } while (n <= 0);
+    cin.ignore();
+
+    NhanVien *ds = new NhanVien[n];   
+
+    nhapDanhSach(ds, n);
+    inNhanVienNghiHuu(ds, n);
+
+    delete[] ds;                      
+    return 0;
+}
